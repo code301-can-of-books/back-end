@@ -1,4 +1,4 @@
-# Project Name
+# Can of Books
 
 **Author**: Julio Ramirez and Jonathan Brooks
 **Version**: 1.0.0
