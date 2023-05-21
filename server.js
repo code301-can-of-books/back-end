@@ -4,7 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const getBooks = require('./Modules/getBooks')
+const books = require('./Modules/books')
 
 const app = express();
 app.use(cors());
@@ -18,7 +18,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 db.once('open', () => console.log('Mongoose is connected'));
 
-app.get('/getBooks', getBooks);
+app.get('/books', books);
 
 app.get('/', (req,res) => res.status(200).send('Default route working'));
 
