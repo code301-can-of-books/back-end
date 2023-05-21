@@ -2,7 +2,7 @@
 
 const Book = require('../Model/book');
 
-function getBooks(req, res){
+function books(req, res){
   let queryObject = {};
 
   if(req.query.location){
@@ -14,4 +14,4 @@ function getBooks(req, res){
     .catch(err => console.error(err));
 }
 
-module.exports = getBooks;
+module.exports = books;
