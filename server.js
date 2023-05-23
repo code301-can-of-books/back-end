@@ -23,5 +23,4 @@ app.get('/books', books);
 app.get('/', (req, res) => res.status(200).send('Default route working'));
 
 mongoose.connect(process.env.MONGODB_URL);
-
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
