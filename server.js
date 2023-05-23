@@ -4,8 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const books = require('./Modules/books')
-
+const books = require('./Modules/books');
 
 const app = express();
 app.use(cors());
@@ -21,21 +20,8 @@ db.once('open', () => console.log('Mongoose is connected'));
 
 app.get('/books', books);
 
-app.get('/', (req,res) => res.status(200).send('Default route working'));
-
-mongoose.connect(process.env.MONGODB_URL);
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connecrtion error'));
-db.once('open', () => console.log('Mongoose is connected'));
-
-app.get('/books', getBooks);
-
 app.get('/', (req, res) => res.status(200).send('Default route working'));
 
-app.get('/get', (request, response) => {
-  response.send('test request received');
-});
+mongoose.connect(process.env.MONGODB_URL);
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
