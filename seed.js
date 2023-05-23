@@ -1,4 +1,6 @@
-'use strict';
+
+'use strict'
+
 
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -7,38 +9,39 @@ mongoose.connect(process.env.MONGODB_URL);
 
 const Book = require('./Model/book');
 
-async function seed() {
-  const myBook = new Book({
-    title: 'The View ',
-    description:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.',
-    status: 'Completed',
-  });
+const { describe } = require('node:test');
 
-  await myBook
-    .save()
-    .then(() => console.log('Saved to The View to DB'))
-    .catch((error) => console.error(error));
-
-  await Book.create({
-    title: 'Mask Man ',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    status: 'Not Completed',
+async function seed(){
+  const myBook =  new Book({
+    title: 'The Last Word',
+    description: 'After posting a negative review of a horror novel, a woman staying at an isolated beach house begins to wonder if the author is a little touchy—or very, very dangerous—in this pulse-pounding novel of psychological suspense and terror from the critically acclaimed author of No Exit and Hairpin Bridge.',
+    status: 'Not Complete'
   })
-    .then(() => console.log('Saved to Mask Man to DB'))
-    .catch((error) => console.error(error));
 
-  await Book.create({
-    title: 'Untold Adventure',
-    description:
-      'Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.',
-    status: 'Completed',
-  })
-    .then(() => console.log('Saved to Untold Adventure to DB'))
-    .catch((error) => console.error(error));
+  await myBook.save()
+    .then(() => console.log('Saved book to the DB', typeof myBook))
+    .catch(err => console.error(err));
+
+    await Book.create({
+      title: 'Where They Lie',
+      description: 'The murder of an influencer’s family exposes the disturbing secrets behind the facade in a haunting novel of suspense by Joe Hart, Wall Street Journal bestselling author of Or Else.',
+      status: 'Not Complete' 
+    })
+
+    .then(()=> console.log('Saved Book 2 to the DB'))
+    .catch(err => console.error(err));
+
+    await Book.create({
+      title: 'Far Gone',
+      description: 'From the USA Today bestselling author of White Out comes a story of two heroines with shattered pasts and a town with blood on its hands.',
+      status: 'Not Complete'
+})
+      .then(() => console.log('Saved Book 3 to the DB'))
+      .catch(err => console.error(err));
 
   mongoose.disconnect();
+
 }
 
 seed();
+
