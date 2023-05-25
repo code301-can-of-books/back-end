@@ -10,7 +10,6 @@ bookHandler.getBook = function (req, res) {
   if (req.query._id) {
     queryObject = { id: req.query._id };
   }
-  console.log(queryObject);
   Book.find(queryObject)
     .then((data) => res.status(200).send(data))
     .catch((err) => console.error(err));
