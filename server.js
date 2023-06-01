@@ -24,6 +24,7 @@ app.get('/', (req, res) => res.status(200).send('Default route working'));
 app.get('/book', bookHandler.getBook);
 app.post('/book', bookHandler.postBook);
 app.delete('/book/:_id', bookHandler.deleteBook);
+app.put('/book/:_id', bookHandler.updateBook);
 
 mongoose.connect(process.env.MONGODB_URL);
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
