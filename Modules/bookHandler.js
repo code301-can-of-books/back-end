@@ -30,4 +30,28 @@ bookHandler.deleteBook = function (req, res, next) {
     .then((deletedBook) => res.status(200).send('Book has been deleted'))
     .catch((err) => next(err));
 };
+
+bookHandler.updateBook = function (req, res, next) {
+  const { _id } = req.params;
+  const data = req.body;
+
+  // try {
+  //   const updateBook = await Book.findByIdAndUpdate(id, data, {
+  //     new: true,
+  //   });
+  //   console.log(updateBook);
+  //   res.status(200).updateBook;
+  // } catch (error) {
+  //   console.error(error.message);
+  //   next(error);
+  // }
+
+  Book.findByIdAndUpdate(_id, data, { new: true })
+    .then((updateBook) => {
+      console.log(updateBook);
+      res.status(200).send(updateBook);
+    })
+    .catch((err) => next(err));
+};
+
 module.exports = bookHandler;
