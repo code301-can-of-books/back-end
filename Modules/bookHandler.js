@@ -4,54 +4,34 @@ const Book = require('../Model/book');
 
 const bookHandler = {};
 
-bookHandler.getBook = function (req, res) {
-  let queryObject = {};
-
-  if (req.query._id) {
-    queryObject = { id: req.query._id };
-  }
+bookHandler.getBook = function (req, res, next) {
+  let queryObject = {email: req.user.email};
   Book.find(queryObject)
-    .then((data) => res.status(200).send(data))
-    .catch((err) => console.error(err));
+    .then(data => res.status(200).send(data))
+    .catch(err => next(err))
 };
 
 bookHandler.postBook = function (req, res, next) {
-  const data = req.body;
-
-  Book.create(data)
+  Book.create({...req.body, email: req.user.email})
     .then((createBook) => res.status(201).send(createBook))
     .catch((err) => next(err));
 };
 
+bookHandler.updateBook = function (req, res, next) {
+  const { _id } = req.params.id;
+
+  Book.findByIdAndUpdate(_id, {...req.body, email: req.user.email}, { new: true, overwrite: true })
+    .then((updateBook) => {
+      res.status(200).send(updateBook);
+    })
+    .catch((err) => next(err));
+};
 bookHandler.deleteBook = function (req, res, next) {
-  const { _id } = req.params;
-  console.log(_id);
+  const { _id } = req.params.id;
   Book.findByIdAndDelete(_id)
     .then((deletedBook) => res.status(200).send('Book has been deleted'))
     .catch((err) => next(err));
 };
 
-bookHandler.updateBook = function (req, res, next) {
-  const { _id } = req.params;
-  const data = req.body;
-
-  // try {
-  //   const updateBook = await Book.findByIdAndUpdate(id, data, {
-  //     new: true,
-  //   });
-  //   console.log(updateBook);
-  //   res.status(200).updateBook;
-  // } catch (error) {
-  //   console.error(error.message);
-  //   next(error);
-  // }
-
-  Book.findByIdAndUpdate(_id, data, { new: true })
-    .then((updateBook) => {
-      console.log(updateBook);
-      res.status(200).send(updateBook);
-    })
-    .catch((err) => next(err));
-};
 
 module.exports = bookHandler;
