@@ -26,8 +26,8 @@ app.use(verifyUser);
 
 app.get('/book', bookHandler.getBook);
 app.post('/book', bookHandler.postBook);
-app.put('/book/:_id', bookHandler.updateBook);
-app.delete('/book/:_id', bookHandler.deleteBook);
+app.put('/book/:id', bookHandler.updateBook);
+app.delete('/book/:id', bookHandler.deleteBook);
 
 app.use((err, req, res, next) => res.status(500).send(err.message));
 
