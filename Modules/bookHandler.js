@@ -19,10 +19,9 @@ bookHandler.postBook = function (req, res, next) {
 };
 
 bookHandler.updateBook = function (req, res, next) {
-  const { _id } = req.params.id;
+  const id = req.params.id;
 
-  Book.findByIdAndUpdate(
-    _id,
+  Book.findByIdAndUpdate(id,
     { ...req.body, email: req.user.email },
     { new: true, overwrite: true }
   )
@@ -32,8 +31,8 @@ bookHandler.updateBook = function (req, res, next) {
     .catch((err) => next(err));
 };
 bookHandler.deleteBook = function (req, res, next) {
-  const { _id } = req.params.id;
-  Book.findByIdAndDelete(_id)
+  const id = req.params.id;
+  Book.findByIdAndDelete(id)
     .then((deletedBook) => res.status(200).send('Book has been deleted'))
     .catch((err) => next(err));
 };
