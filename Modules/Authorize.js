@@ -1,24 +1,21 @@
 const jwt = require('jsonwebtoken');
 const jwksClient = require('jwks-rsa');
 
-
 function verifyUser(request, response, next) {
-  
-
   function valid(err, user) {
     request.user = user;
     next();
   }
 
-  try{
-    const token = request.header.authorization.split('')[1];
+  try {
+    const token = request.headers.authorization.split(' ')[1];
+    console.log('message');
+    console.log(token);
     jwt.verify(token, getKey, {}, valid);
-  }catch (error) {
-    next('Not Authorized')
+  } catch (error) {
+    next('Not Authorized');
   }
 }
-
-
 
 // =============== HELPER METHODS, pulled from the jsonwebtoken documentation =================== //
 //                 https://www.npmjs.com/package/jsonwebtoken                                     //
@@ -32,12 +29,12 @@ const client = jwksClient({
 // Match the JWT's key to your Auth0 Account Key so we can validate it
 function getKey(header, callback) {
   console.log(header.kid);
+  // console.log(client);
   client.getSigningKey(header.kid, function (err, key) {
     console.log('E', err);
     const signingKey = key.publicKey || key.rsaPublicKey;
     callback(null, signingKey);
   });
 }
-
 
 module.exports = verifyUser;
